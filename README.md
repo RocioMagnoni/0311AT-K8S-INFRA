@@ -13,7 +13,7 @@ Estructura del Proyecto
 Consta de dos repositorios:
 
 * static-website : contiene el código fuente del sitio web HTML y CSS  
-* [0311AT-K8S-INFRA](https://github.com/RocioMagnoni/0311AT-K8S-INFRA): contiene a manifiestos\_k8s (contiene los manifiestos YAML) y el README
+* 0311AT-K8S-INFRA: contiene a manifiestos\_k8s (contiene los manifiestos YAML) y el README
 
   Pasos para reproducir el entorno
 
@@ -24,7 +24,7 @@ Consta de dos repositorios:
 
    git clone https://github.com/tu-usuario/static-website. git .
 
-   git clone https://github.com/tu-usuario/[0311AT-K8S-INFRA](https://github.com/RocioMagnoni/0311AT-K8S-INFRA). git .
+   git clone https://github.com/tu-usuario/0311AT-K8S-INFRA. git .
 
    
 
