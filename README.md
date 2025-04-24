@@ -20,7 +20,7 @@ Este proyecto consta de dos repositorios:
 El repositorio del sitio web parte de un fork del siguiente proyecto base:  
  [https://github.com/ewojjowe/static-website](https://github.com/ewojjowe/static-website) 
 
-Este README fue pensado para ejecutarse en un entorno Windows. Si est·s usando Linux o Mac, deber·s adaptar las rutas del volumen montado.
+Este README fue pensado para ejecutarse en un entorno Windows. Si est√°s usando Linux o Mac, deber√°s adaptar las rutas del volumen montado.
 
 **Pasos para reproducir el entorno**
 
