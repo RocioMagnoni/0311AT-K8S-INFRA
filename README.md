@@ -1,5 +1,5 @@
-0311 AT – K8S: Casi como en producción   
- Despliegue de Sitio Web Estático en Kubernetes con Minikube
+**0311 AT – K8S: Casi como en producción**   
+ **Despliegue de Sitio Web Estático en Kubernetes con Minikube**
 
 Este proyecto tiene como finalidad crear un entorno de trabajo local que simule una situación real del mundo laboral, utilizando Kubernetes sobre Minikube. Se despliega un sitio web estático personalizado, cuyo contenido se encuentra en un volumen persistente montado desde el host local. Además, se versiona todo el código utilizando Git y GitHub, tanto para el contenido de la web como para los manifiestos de Kubernetes.
 
@@ -9,36 +9,58 @@ Requisitos
 \- kubectl  
 \- Git
 
-Estructura del Proyecto  
-Consta de dos repositorios:
+**Estructura del Proyecto**
 
-* static-website : contiene el código fuente del sitio web HTML y CSS  
-* 0311AT-K8S-INFRA: contiene a manifiestos\_k8s (contiene los manifiestos YAML) y el README
+Este proyecto consta de dos repositorios:
 
-  Pasos para reproducir el entorno
+* **static-website**:(https://github.com/RocioMagnoni/static-website): contiene el código fuente del sitio web (HTML y CSS).  
+* **0311AT-K8S-INFRA**:(https://github.com/RocioMagnoni/0311AT-K8S-INFRA): contiene los manifiestos Kubernetes dentro del directorio \`manifiestos\_k8s\`.
 
 
-1. Clonar ambos repositorios
+El repositorio del sitio web parte de un fork del siguiente proyecto base:  
+ [https://github.com/ewojjowe/static-website](https://github.com/ewojjowe/static-website) 
 
-   
+**Pasos para reproducir el entorno**
 
-   git clone https://github.com/tu-usuario/static-website. git .
-
-   git clone https://github.com/tu-usuario/0311AT-K8S-INFRA. git .
-
-   
-
-2. Iniciar el Cluster (se debe cambiar la dirección por la que corresponda en tu caso)
+1. Crear un directorio de trabajo local, por ejemplo:  
+     
+   C:\\Users\\tu-usuario\\0311AT-K8S  
+     
+2. Posicionarse en la carpeta desde PowerShell o Git Bash:
 
    
 
-    minikube start \--driver=docker \--mount \--mount-string="C:\\Users\\Casa\\0311AT-K8S\\static-website:/mnt/web"
-
-3. Aplicar los manifiestos (Previamente creados)
+   cd C:\\Users\\TU\_USUARIO\\0311AT-K8S
 
    
 
-   cd manifiestos\_k8s
+3. Clonar los dos repositorios:
+
+   
+
+   git clone https://github.com/RocioMagnoni/static-website.git
+
+   git clone [https://github.com/RocioMagnoni/0311AT-K8S-INFRA.git](https://github.com/RocioMagnoni/0311AT-K8S-INFRA.git)
+
+   
+
+   Esto creará dos carpetas dentro de tu directorio de trabajo (static-website y 0311AT-K8S-INFRA), que contendrán todo lo necesario para reproducir el entorno.
+
+   
+
+4. Iniciar el cluster Minikube montando el contenido del sitio:
+
+   
+
+    minikube start \--driver=docker \--mount \--mount-string="C:\\Users\\tu-usuario\\0311AT-K8S\\static-website:/mnt/web"
+
+5. Aplicar los manifiestos YAML desde la carpeta manifiestos\_k8s:
+
+   
+
+   cd 0311AT-K8S-INFRA\\manifiestos\_k8s
+
+   
 
    kubectl apply \-f pv-pvc/persistent-volume.yaml
 
@@ -46,9 +68,12 @@ Consta de dos repositorios:
 
    kubectl apply \-f deployment/deployment.yaml
 
-   kubectl apply \-f service/ service.yaml
+   kubectl apply \-f service/service.yaml
 
-4. Verificacion pods,svc,deployments
+ 
+
+
+6. Verificar que el despliegue esté funcionando:
 
    
 
@@ -60,7 +85,7 @@ Consta de dos repositorios:
 
    
 
-5. Acceso al sitio web 
+7. Acceder al sitio web desde el navegador:
 
    
 
