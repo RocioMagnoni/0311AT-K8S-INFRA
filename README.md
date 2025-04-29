@@ -20,9 +20,23 @@ Este proyecto consta de dos repositorios:
 El repositorio del sitio web parte de un fork del siguiente proyecto base:  
  [https://github.com/ewojjowe/static-website](https://github.com/ewojjowe/static-website) 
 
-Este README fue pensado para ejecutarse en un entorno Windows. Si estás usando Linux o Mac, deberás adaptar las rutas del volumen montado.
+Este README fue pensado para reproducirse de forma manual en un entorno Windows. Si estás usando Linux o Mac, deberás adaptar las rutas del volumen montado.  
+En el caso de reproducir el entorno de forma automática está pensado para ejecutarse en un entorno Linux,por lo que si te encuentras utilizando Windows deberás adaptar las rutas de volumen de montado.
 
-**Pasos para reproducir el entorno**
+**Pasos para reproducir el entorno de forma automática en Linux**
+
+1. Dar permisos de ejecución al script:(Asegurarse estar en el directorio donde se encuentra el archivo despliegue.sh)  
+     
+   chmod \+x despliegue.sh  
+     
+2. Ejecutar el script:(debes asegurarte de tener corriendo docker)  
+     
+   ./despliegue.sh  
+   
+
+Esto creará el entorno local en \~/0311AT-K8S, clonará los repositorios, iniciará Minikube con el volumen montado, y aplicará los manifiestos automáticamente.Al finalizar el script se mostrará la URL que deberás utilizar para acceder a tu pagina web estatica
+
+**Pasos para reproducir el entorno de forma manual**
 
 1. Crear un directorio de trabajo local, por ejemplo:  
      
