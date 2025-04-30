@@ -15,12 +15,14 @@ set -euo pipefail
 ### CONFIGURACIÓN ###
 REPO_WEB="https://github.com/RocioMagnoni/static-website.git"
 REPO_INFRA="https://github.com/RocioMagnoni/0311AT-K8S-INFRA.git"
-BASE_DIR="${1:-$HOME/0311AT-K8S}"
+BASE_DIR="${1:-$HOME/0311AT-K8S}"  # Si no se pasa argumento, usa HOME
 MOUNT_PATH="/mnt/web"
 CLUSTER_NAME="0311at"
 DRIVER="docker"
 
 ### FUNCIONES AUXILIARES ###
+
+# Validar dependencias requeridas
 function validar_dependencias() {
   echo "[INFO] Validando dependencias..."
   for cmd in git kubectl minikube; do
@@ -31,6 +33,7 @@ function validar_dependencias() {
   done
 }
 
+# Clonar los repositorios si no existen
 function clonar_repos() {
   echo "[INFO] Clonando repositorios en '$BASE_DIR'..."
   mkdir -p "$BASE_DIR"
@@ -40,12 +43,14 @@ function clonar_repos() {
   [ -d "0311AT-K8S-INFRA" ] || git clone "$REPO_INFRA" 0311AT-K8S-INFRA
 }
 
+# Iniciar Minikube con volumen montado
 function iniciar_minikube() {
-  echo "[INFO] Iniciando cluster Minikube con volumen montado..."
+  echo "[INFO] Iniciando cluster Minikube..."
   minikube start -p "$CLUSTER_NAME" --driver="$DRIVER" \
     --mount --mount-string="${BASE_DIR}/static-website:${MOUNT_PATH}"
 }
 
+# Aplicar los manifiestos YAML de Kubernetes
 function aplicar_manifiestos() {
   echo "[INFO] Aplicando manifiestos Kubernetes..."
   local manifiestos_dir="$BASE_DIR/0311AT-K8S-INFRA/manifiestos_k8s"
@@ -57,30 +62,18 @@ function aplicar_manifiestos() {
   kubectl apply -f service/service.yaml
 }
 
+# Verificar que los recursos estén corriendo
 function verificar_recursos() {
   echo "[INFO] Verificando recursos desplegados..."
-
-  echo "[INFO] Esperando a que el pod esté en estado 'Running'..."
-  for i in {1..20}; do
-    POD_STATUS=$(kubectl get pods -l app=web -o jsonpath='{.items[0].status.phase}' 2>/dev/null || echo "NotFound")
-    if [[ "$POD_STATUS" == "Running" ]]; then
-      echo "[OK] Pod en estado Running"
-      break
-    fi
-    echo "Esperando pod... ($i/20)"
-    sleep 5
-  done
-
-  if [[ "$POD_STATUS" != "Running" ]]; then
-    echo "[ERROR] El pod no llegó al estado Running. Abortando despliegue." >&2
-    exit 1
-  fi
-
   kubectl get pods
   kubectl get svc
   kubectl get deployments
+
+  echo "[INFO] Esperando a que el pod esté listo..."
+  kubectl wait --for=condition=ready pod -l app=static-website --timeout=60s
 }
 
+# Abrir el sitio web localmente
 function acceder_sitio() {
   echo "[INFO] Abriendo sitio desplegado..."
   minikube -p "$CLUSTER_NAME" service static-site-service
@@ -88,6 +81,7 @@ function acceder_sitio() {
 
 ### EJECUCIÓN ###
 echo "=== Despliegue Automático - 0505AT Abril 2025 ==="
+
 validar_dependencias
 clonar_repos
 iniciar_minikube
